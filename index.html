@@ -1,1 +1,1351 @@
-
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newpix AI演员经纪公司 - 艺人名录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .filter-section {
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .filter-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .filter-btn.active {
+            background: white;
+            color: #764ba2;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+        
+        .actor-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .actor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .actor-avatar {
+            height: 200px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .actor-info {
+            padding: 20px;
+        }
+        
+        .actor-id {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .actor-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .actor-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .tag.gender-male {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .tag.gender-female {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎬 Newpix AI演员经纪公司</h1>
+        <div class="subtitle">专业的AI演员管理与经纪服务</div>
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">100</span>
+                <span class="stat-label">签约艺人</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">90</span>
+                <span class="stat-label">中国演员</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10</span>
+                <span class="stat-label">国际演员</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="filter-section">
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterActors('all')">全部演员</button>
+            <button class="filter-btn" onclick="filterActors('male')">男演员</button>
+            <button class="filter-btn" onclick="filterActors('female')">女演员</button>
+        </div>
+    </div>
+    
+    <div class="container" id="actorContainer">
+        <a href="newpix_A001.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">田</div>
+            <div class="actor-info">
+                <div class="actor-id">#A001</div>
+                <div class="actor-name">田磊杰</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">文艺片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A002.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">朱</div>
+            <div class="actor-info">
+                <div class="actor-id">#A002</div>
+                <div class="actor-name">朱勇军</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">职场剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A003.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">萧</div>
+            <div class="actor-info">
+                <div class="actor-id">#A003</div>
+                <div class="actor-name">萧磊伟</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">历史剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A004.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">林</div>
+            <div class="actor-info">
+                <div class="actor-id">#A004</div>
+                <div class="actor-name">林博洋</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">悬疑片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A005.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">田</div>
+            <div class="actor-info">
+                <div class="actor-id">#A005</div>
+                <div class="actor-name">田浩刚</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">都市剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A006.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">陈</div>
+            <div class="actor-info">
+                <div class="actor-id">#A006</div>
+                <div class="actor-name">陈凯飞</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">都市剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A007.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">郭</div>
+            <div class="actor-info">
+                <div class="actor-id">#A007</div>
+                <div class="actor-name">郭晨宇</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">都市剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A008.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">胡</div>
+            <div class="actor-info">
+                <div class="actor-id">#A008</div>
+                <div class="actor-name">胡斌刚</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">悬疑片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A009.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">蒋</div>
+            <div class="actor-info">
+                <div class="actor-id">#A009</div>
+                <div class="actor-name">蒋斌平</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">动作片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A010.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">彭</div>
+            <div class="actor-info">
+                <div class="actor-id">#A010</div>
+                <div class="actor-name">彭亮华</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">古装剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A011.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">杨</div>
+            <div class="actor-info">
+                <div class="actor-id">#A011</div>
+                <div class="actor-name">杨军帆</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">医疗剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A012.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">胡</div>
+            <div class="actor-info">
+                <div class="actor-id">#A012</div>
+                <div class="actor-name">胡平龙</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">舞台剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A013.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">张</div>
+            <div class="actor-info">
+                <div class="actor-id">#A013</div>
+                <div class="actor-name">张鹏轩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">爱情片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A014.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">马</div>
+            <div class="actor-info">
+                <div class="actor-id">#A014</div>
+                <div class="actor-name">马伟华</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">都市剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A015.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">周</div>
+            <div class="actor-info">
+                <div class="actor-id">#A015</div>
+                <div class="actor-name">周杰强</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">综艺节目</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A016.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">萧</div>
+            <div class="actor-info">
+                <div class="actor-id">#A016</div>
+                <div class="actor-name">萧帆磊</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">刑侦剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A017.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">杨</div>
+            <div class="actor-info">
+                <div class="actor-id">#A017</div>
+                <div class="actor-name">杨刚刚</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">广告代言</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A018.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">刘</div>
+            <div class="actor-info">
+                <div class="actor-id">#A018</div>
+                <div class="actor-name">刘洋浩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">青春偶像剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A019.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">周</div>
+            <div class="actor-info">
+                <div class="actor-id">#A019</div>
+                <div class="actor-name">周宇平</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">动作片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A020.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">杨</div>
+            <div class="actor-info">
+                <div class="actor-id">#A020</div>
+                <div class="actor-name">杨睿强</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">职场剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A021.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">袁</div>
+            <div class="actor-info">
+                <div class="actor-id">#A021</div>
+                <div class="actor-name">袁平磊</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">喜剧片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A022.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">唐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A022</div>
+                <div class="actor-name">唐平浩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">科幻片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A023.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">许</div>
+            <div class="actor-info">
+                <div class="actor-id">#A023</div>
+                <div class="actor-name">许明宇</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">舞台剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A024.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">潘</div>
+            <div class="actor-info">
+                <div class="actor-id">#A024</div>
+                <div class="actor-name">潘志勇</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">谍战剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A025.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">徐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A025</div>
+                <div class="actor-name">徐亮峰</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">科幻片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A026.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">蔡</div>
+            <div class="actor-info">
+                <div class="actor-id">#A026</div>
+                <div class="actor-name">蔡磊华</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">文艺片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A027.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">曾</div>
+            <div class="actor-info">
+                <div class="actor-id">#A027</div>
+                <div class="actor-name">曾洋龙</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">都市剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A028.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">唐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A028</div>
+                <div class="actor-name">唐晨涛</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A029.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">冯</div>
+            <div class="actor-info">
+                <div class="actor-id">#A029</div>
+                <div class="actor-name">冯亮龙</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">青春偶像剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A030.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">李</div>
+            <div class="actor-info">
+                <div class="actor-id">#A030</div>
+                <div class="actor-name">李鹏宇</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A031.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">董</div>
+            <div class="actor-info">
+                <div class="actor-id">#A031</div>
+                <div class="actor-name">董睿飞</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">舞台剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A032.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">梁</div>
+            <div class="actor-info">
+                <div class="actor-id">#A032</div>
+                <div class="actor-name">梁峰轩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">武侠片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A033.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">曹</div>
+            <div class="actor-info">
+                <div class="actor-id">#A033</div>
+                <div class="actor-name">曹杰华</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">古装剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A034.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">朱</div>
+            <div class="actor-info">
+                <div class="actor-id">#A034</div>
+                <div class="actor-name">朱飞勇</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">谍战剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A035.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">张</div>
+            <div class="actor-info">
+                <div class="actor-id">#A035</div>
+                <div class="actor-name">张伟超</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">家庭伦理剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A036.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">吴</div>
+            <div class="actor-info">
+                <div class="actor-id">#A036</div>
+                <div class="actor-name">吴刚峰</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">文艺片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A037.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">胡</div>
+            <div class="actor-info">
+                <div class="actor-id">#A037</div>
+                <div class="actor-name">胡涛平</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">综艺节目</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A038.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">王</div>
+            <div class="actor-info">
+                <div class="actor-id">#A038</div>
+                <div class="actor-name">王伟志</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">职场剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A039.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">高</div>
+            <div class="actor-info">
+                <div class="actor-id">#A039</div>
+                <div class="actor-name">高华飞</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">谍战剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A040.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">董</div>
+            <div class="actor-info">
+                <div class="actor-id">#A040</div>
+                <div class="actor-name">董飞凯</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">家庭伦理剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A041.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">曹</div>
+            <div class="actor-info">
+                <div class="actor-id">#A041</div>
+                <div class="actor-name">曹龙平</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">职场剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A042.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">何</div>
+            <div class="actor-info">
+                <div class="actor-id">#A042</div>
+                <div class="actor-name">何博浩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">舞台剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A043.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">王</div>
+            <div class="actor-info">
+                <div class="actor-id">#A043</div>
+                <div class="actor-name">王宇帆</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">历史剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A044.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">林</div>
+            <div class="actor-info">
+                <div class="actor-id">#A044</div>
+                <div class="actor-name">林翔峰</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">广告代言</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A045.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">郭</div>
+            <div class="actor-info">
+                <div class="actor-id">#A045</div>
+                <div class="actor-name">郭刚磊</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">职场剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A046.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">徐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A046</div>
+                <div class="actor-name">徐莉玲</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A047.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">韩</div>
+            <div class="actor-info">
+                <div class="actor-id">#A047</div>
+                <div class="actor-name">韩慧雅</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">悬疑片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A048.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">何</div>
+            <div class="actor-info">
+                <div class="actor-id">#A048</div>
+                <div class="actor-name">何雅萍</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">文艺片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A049.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">张</div>
+            <div class="actor-info">
+                <div class="actor-id">#A049</div>
+                <div class="actor-name">张芳诗</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">家庭伦理剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A050.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">周</div>
+            <div class="actor-info">
+                <div class="actor-id">#A050</div>
+                <div class="actor-name">周秀怡</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">医疗剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A051.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">曾</div>
+            <div class="actor-info">
+                <div class="actor-id">#A051</div>
+                <div class="actor-name">曾雪雪</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">家庭伦理剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A052.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">陈</div>
+            <div class="actor-info">
+                <div class="actor-id">#A052</div>
+                <div class="actor-name">陈玲悦</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">古装剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A053.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">何</div>
+            <div class="actor-info">
+                <div class="actor-id">#A053</div>
+                <div class="actor-name">何怡悦</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">青春偶像剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A054.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">徐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A054</div>
+                <div class="actor-name">徐静薇</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">刑侦剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A055.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">马</div>
+            <div class="actor-info">
+                <div class="actor-id">#A055</div>
+                <div class="actor-name">马雪慧</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">家庭伦理剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A056.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">冯</div>
+            <div class="actor-info">
+                <div class="actor-id">#A056</div>
+                <div class="actor-name">冯晴萍</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">医疗剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A057.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">萧</div>
+            <div class="actor-info">
+                <div class="actor-id">#A057</div>
+                <div class="actor-name">萧萍薇</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">刑侦剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A058.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">王</div>
+            <div class="actor-info">
+                <div class="actor-id">#A058</div>
+                <div class="actor-name">王蕊欣</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">广告代言</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A059.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">何</div>
+            <div class="actor-info">
+                <div class="actor-id">#A059</div>
+                <div class="actor-name">何红颖</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">青春偶像剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A060.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">潘</div>
+            <div class="actor-info">
+                <div class="actor-id">#A060</div>
+                <div class="actor-name">潘颖玲</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">综艺节目</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A061.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">张</div>
+            <div class="actor-info">
+                <div class="actor-id">#A061</div>
+                <div class="actor-name">张慧秀</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">职场剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A062.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">袁</div>
+            <div class="actor-info">
+                <div class="actor-id">#A062</div>
+                <div class="actor-name">袁雪琳</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">职场剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A063.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">马</div>
+            <div class="actor-info">
+                <div class="actor-id">#A063</div>
+                <div class="actor-name">马晴欣</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">舞台剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A064.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">何</div>
+            <div class="actor-info">
+                <div class="actor-id">#A064</div>
+                <div class="actor-name">何秀秀</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">武侠片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A065.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">韩</div>
+            <div class="actor-info">
+                <div class="actor-id">#A065</div>
+                <div class="actor-name">韩娜倩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">都市剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A066.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">谢</div>
+            <div class="actor-info">
+                <div class="actor-id">#A066</div>
+                <div class="actor-name">谢艳怡</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">动作片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A067.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">谢</div>
+            <div class="actor-info">
+                <div class="actor-id">#A067</div>
+                <div class="actor-name">谢婉璐</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">喜剧片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A068.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">胡</div>
+            <div class="actor-info">
+                <div class="actor-id">#A068</div>
+                <div class="actor-name">胡萍玲</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">武侠片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A069.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">刘</div>
+            <div class="actor-info">
+                <div class="actor-id">#A069</div>
+                <div class="actor-name">刘雅芳</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">舞台剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A070.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">陈</div>
+            <div class="actor-info">
+                <div class="actor-id">#A070</div>
+                <div class="actor-name">陈艳悦</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">医疗剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A071.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">刘</div>
+            <div class="actor-info">
+                <div class="actor-id">#A071</div>
+                <div class="actor-name">刘涵瑶</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A072.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">宋</div>
+            <div class="actor-info">
+                <div class="actor-id">#A072</div>
+                <div class="actor-name">宋雅晴</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">综艺节目</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A073.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">朱</div>
+            <div class="actor-info">
+                <div class="actor-id">#A073</div>
+                <div class="actor-name">朱丽莉</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">谍战剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A074.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">田</div>
+            <div class="actor-info">
+                <div class="actor-id">#A074</div>
+                <div class="actor-name">田丽蕊</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">动作片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A075.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">郭</div>
+            <div class="actor-info">
+                <div class="actor-id">#A075</div>
+                <div class="actor-name">郭莉琳</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A076.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">唐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A076</div>
+                <div class="actor-name">唐梅慧</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">历史剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A077.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">董</div>
+            <div class="actor-info">
+                <div class="actor-id">#A077</div>
+                <div class="actor-name">董秀静</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">古装剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A078.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">梁</div>
+            <div class="actor-info">
+                <div class="actor-id">#A078</div>
+                <div class="actor-name">梁倩秀</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">历史剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A079.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">周</div>
+            <div class="actor-info">
+                <div class="actor-id">#A079</div>
+                <div class="actor-name">周诗雪</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">刑侦剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A080.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">何</div>
+            <div class="actor-info">
+                <div class="actor-id">#A080</div>
+                <div class="actor-name">何欣婉</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">家庭伦理剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A081.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">胡</div>
+            <div class="actor-info">
+                <div class="actor-id">#A081</div>
+                <div class="actor-name">胡梅倩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">谍战剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A082.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">唐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A082</div>
+                <div class="actor-name">唐秀怡</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A083.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">韩</div>
+            <div class="actor-info">
+                <div class="actor-id">#A083</div>
+                <div class="actor-name">韩丽瑶</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">爱情片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A084.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">杨</div>
+            <div class="actor-info">
+                <div class="actor-id">#A084</div>
+                <div class="actor-name">杨红丽</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">都市剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A085.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">王</div>
+            <div class="actor-info">
+                <div class="actor-id">#A085</div>
+                <div class="actor-name">王婉倩</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">广告代言</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A086.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">高</div>
+            <div class="actor-info">
+                <div class="actor-id">#A086</div>
+                <div class="actor-name">高诗慧</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">科幻片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A087.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">徐</div>
+            <div class="actor-info">
+                <div class="actor-id">#A087</div>
+                <div class="actor-name">徐晴芳</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">舞台剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A088.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">谢</div>
+            <div class="actor-info">
+                <div class="actor-id">#A088</div>
+                <div class="actor-name">谢瑶芳</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">历史剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A089.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">梁</div>
+            <div class="actor-info">
+                <div class="actor-id">#A089</div>
+                <div class="actor-name">梁倩诗</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A090.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">林</div>
+            <div class="actor-info">
+                <div class="actor-id">#A090</div>
+                <div class="actor-name">林敏怡</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">动作片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A091.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">J</div>
+            <div class="actor-info">
+                <div class="actor-id">#A091</div>
+                <div class="actor-name">James Anderson</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">家庭伦理剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A092.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">E</div>
+            <div class="actor-info">
+                <div class="actor-id">#A092</div>
+                <div class="actor-name">Emma Thompson</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">动作片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A093.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">L</div>
+            <div class="actor-info">
+                <div class="actor-id">#A093</div>
+                <div class="actor-name">Lucas Silva</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">喜剧片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A094.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">S</div>
+            <div class="actor-info">
+                <div class="actor-id">#A094</div>
+                <div class="actor-name">Sophie Martin</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A095.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">A</div>
+            <div class="actor-info">
+                <div class="actor-id">#A095</div>
+                <div class="actor-name">Alex Kim</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">爱情片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A096.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">M</div>
+            <div class="actor-info">
+                <div class="actor-id">#A096</div>
+                <div class="actor-name">Maria Rodriguez</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">音乐剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A097.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">D</div>
+            <div class="actor-info">
+                <div class="actor-id">#A097</div>
+                <div class="actor-name">David Müller</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">动作片</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A098.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">I</div>
+            <div class="actor-info">
+                <div class="actor-id">#A098</div>
+                <div class="actor-name">Isabella Rossi</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">广告代言</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A099.html" class="actor-card" data-gender="male">
+            <div class="actor-avatar">N</div>
+            <div class="actor-info">
+                <div class="actor-id">#A099</div>
+                <div class="actor-name">Noah Johnson</div>
+                <div class="actor-tags">
+                    <span class="tag gender-male">男</span>
+                    <span class="tag">青春偶像剧</span>
+                </div>
+            </div>
+        </a>
+        <a href="newpix_A100.html" class="actor-card" data-gender="female">
+            <div class="actor-avatar">M</div>
+            <div class="actor-info">
+                <div class="actor-id">#A100</div>
+                <div class="actor-name">Mia Williams</div>
+                <div class="actor-tags">
+                    <span class="tag gender-female">女</span>
+                    <span class="tag">文艺片</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 Newpix AI演员经纪公司</p>
+        <p>致力于打造最专业的AI演员经纪平台</p>
+        <p>联系我们：info@newpix.ai | 电话：400-888-8888</p>
+    </div>
+    
+    <script>
+        function filterActors(type) {
+            const cards = document.querySelectorAll('.actor-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (type === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const gender = card.getAttribute('data-gender');
+                    card.style.display = gender === type ? 'block' : 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
